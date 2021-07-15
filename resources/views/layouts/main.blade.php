@@ -27,7 +27,7 @@
 
 <body class="nav-md">
 <div class="container body">
-    <div class="main_container">
+    <div class="main_container" id="app">
         @include('layouts.admin_partial.sidebar')
 
         <!-- top navigation -->
@@ -35,9 +35,10 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" id="app">
+        <div class="right_col">
 
-            <router-view></router-view>
+           <router-view></router-view>
+            <vue-progress-bar></vue-progress-bar>
         </div>
     </div>
     <!-- /page content -->
@@ -54,9 +55,9 @@
 {{--</div>--}}
 <script src="{{mix('js/app.js')}}"></script>
 <!-- jQuery -->
-<script src="{{asset('/backend')}}/vendors/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap -->
-<script src="{{asset('/backend')}}/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+{{--<script src="{{asset('/backend')}}/vendors/jquery/dist/jquery.min.js"></script>--}}
+{{--<!-- Bootstrap -->--}}
+{{--<script src="{{asset('/backend')}}/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>--}}
 <!-- FastClick -->
 <script src="{{asset('/backend')}}/vendors/fastclick/lib/fastclick.js"></script>
 <!-- NProgress -->

@@ -25,22 +25,23 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-home"></i> Dashboard </a>
+                    <li>
+                        <router-link to="/dashboard"><i class="fa fa-home"></i> Dashboard </router-link>
 
                     </li>
-                    <li><a><i class="fa fa-user"></i> Profile </a>
-                    </li>
+
+                    <li><router-link to="/profile"><i class="fa fa-user"></i> Profile </router-link>     </li>
                     <li><a><i class="fa fa-desktop"></i> Management <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="general_elements.html">General Elements</a></li>
-                            <li><a href="media_gallery.html">Media Gallery</a></li>
-                            <li><a href="typography.html">Typography</a></li>
-                            <li><a href="icons.html">Icons</a></li>
-                            <li><a href="glyphicons.html">Glyphicons</a></li>
-                            <li><a href="widgets.html">Widgets</a></li>
-                            <li><a href="invoice.html">Invoice</a></li>
-                            <li><a href="inbox.html">Inbox</a></li>
-                            <li><a href="calendar.html">Calendar</a></li>
+                            <li><router-link to="/users"> Users </router-link></li>
+{{--                            <li><a href="media_gallery.html">Media Gallery</a></li>--}}
+{{--                            <li><a href="typography.html">Typography</a></li>--}}
+{{--                            <li><a href="icons.html">Icons</a></li>--}}
+{{--                            <li><a href="glyphicons.html">Glyphicons</a></li>--}}
+{{--                            <li><a href="widgets.html">Widgets</a></li>--}}
+{{--                            <li><a href="invoice.html">Invoice</a></li>--}}
+{{--                            <li><a href="inbox.html">Inbox</a></li>--}}
+{{--                            <li><a href="calendar.html">Calendar</a></li>--}}
                         </ul>
                     </li>
                 </ul>
@@ -48,15 +49,13 @@
             <div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
-                    <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="e_commerce.html">E-commerce</a></li>
-                            <li><a href="projects.html">Projects</a></li>
-                            <li><a href="project_detail.html">Project Detail</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="profile.html">Profile</a></li>
-                        </ul>
+                    <li><a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fa fa-bug"></i> Logout <span class="fa fa-chevron-down"></span></a>
+
                     </li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                     <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="page_403.html">403 Error</a></li>

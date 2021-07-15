@@ -1,17 +1,19 @@
 <template>
-    <div className="container">
-        <div className="row justify-content-center">
-            <div className="col-md-8">
-                <div className="card">
-                    <div className="card-header">Dashboard Component</div>
 
-                    <div className="card-body">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Dashboard Component</div>
+
+                    <div class="card-body">
                         I'm an dashboard component.
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
