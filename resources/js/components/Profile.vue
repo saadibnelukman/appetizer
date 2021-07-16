@@ -27,7 +27,7 @@
                                 <div class="profile_img">
                                     <div id="crop-avatar">
                                         <!-- Current avatar -->
-                                        <img class="img-responsive avatar-view" src="/backend/images/picture.jpg"
+                                        <img class="img-responsive avatar-view" :src="getUserPhoto()"
                                              alt="Avatar" title="Change the avatar">
                                     </div>
                                 </div>
@@ -228,45 +228,42 @@
                                                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                                                         <div class="item form-group">
-                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First Name <span class="required">*</span>
+                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name"> Name <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-6 col-sm-6 ">
-                                                                <input type="text" id="first-name" required="required" class="form-control ">
+                                                                <input v-model="form.name" type="text" id="name" required="required" class="form-control ">
+                                                                <HasError :form="form" field="name" />
                                                             </div>
                                                         </div>
                                                         <div class="item form-group">
-                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last Name <span class="required">*</span>
+                                                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Email <span class="required">*</span>
                                                             </label>
                                                             <div class="col-md-6 col-sm-6 ">
-                                                                <input type="text" id="last-name" name="last-name" required="required" class="form-control">
+                                                                <input v-model="form.email" type="email" id="email" name="email" required="required" class="form-control">
+                                                                <HasError :form="form" field="email" />
                                                             </div>
                                                         </div>
                                                         <div class="item form-group">
-                                                            <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Middle Name / Initial</label>
+                                                            <label for="bio" class="col-form-label col-md-3 col-sm-3 label-align">Bio Info</label>
                                                             <div class="col-md-6 col-sm-6 ">
-                                                                <input id="middle-name" class="form-control" type="text" name="middle-name">
+                                                                <textarea v-model="form.bio" id="bio" required="required" class="form-control" name="bio"
+                                                                          data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100"
+                                                                          data-parsley-validation-threshold="10"></textarea>
+                                                                <HasError :form="form" field="bio" />
                                                             </div>
                                                         </div>
                                                         <div class="item form-group">
-                                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
+                                                            <label for="photo" class="col-form-label col-md-3 col-sm-3 label-align">Profile Photo</label>
                                                             <div class="col-md-6 col-sm-6 ">
-                                                                <div id="gender" class="btn-group" data-toggle="buttons">
-                                                                    <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                                                        <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Male &nbsp;
-                                                                    </label>
-                                                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                                                        <input type="radio" name="gender" value="female" class="join-btn"> Female
-                                                                    </label>
-                                                                </div>
+                                                                <input class="form-control" type="file" id="photo" @change="uploadPhoto">
                                                             </div>
                                                         </div>
-
                                                         <div class="ln_solid"></div>
                                                         <div class="item form-group">
                                                             <div class="col-md-6 col-sm-6 offset-md-3">
                                                                 <button class="btn btn-primary" type="button">Cancel</button>
                                                                 <button class="btn btn-primary" type="reset">Reset</button>
-                                                                <button type="submit" class="btn btn-success">Submit</button>
+                                                                <button @click.prevent="updateProfile" type="submit" class="btn btn-success">Submit</button>
                                                             </div>
                                                         </div>
 
@@ -287,8 +284,63 @@
 
 <script>
 export default {
+    data(){
+      return {
+          form: new Form({
+              id: '',
+              name: '',
+              email: '',
+              password: '',
+              type: '',
+              bio: '',
+              photo: ''
+          })
+      }
+    },
     mounted() {
         console.log('Component mounted.')
+    },
+    methods: {
+        uploadPhoto(e){
+
+            let file = e.target.files[0];
+            let reader = new FileReader();
+
+            if (file['size'] < 2111775){
+                reader.onload = (file) => {
+                    this.form.photo = reader.result;
+                    console.log(this.form.photo);
+            }
+                reader.readAsDataURL(file);
+            }else{
+                swal.fire(
+                    'Oops....!',
+                    'You are uploading a large file',
+                    'error'
+                )
+                }
+
+        },
+        getUserPhoto(){
+            let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/"+ this.form.photo;
+            return photo;
+        },
+        updateProfile() {
+            this.$Progress.start();
+            this.form.put('api/profile')
+                .then(() => {
+                    Fire.$emit('AfterCreate');
+                    this.$Progress.finish();
+                } )
+                .catch(() =>{
+                    this.$Progress.fail();
+                })
+        }
+    },
+
+    created() {
+        axios.get('api/profile')
+        .then(({data}) => (this.form.fill(data)));
     }
 }
 </script>

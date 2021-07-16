@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -89,5 +90,39 @@ class UserController extends Controller
         $user->delete();
 
         return ['message' => 'Deleted Successfully'];
+    }
+
+    public function profile(){
+
+        return auth('api')->user();
+
+    }
+    public function updateProfile(Request $request){
+        $user = auth('api')->user();
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'password' => ['sometimes', 'required','string', 'min:8'],
+        ]);
+        $currentPhoto = $user->photo;
+        if ($request->photo != $currentPhoto){
+            $name = time().'.' . explode('/',
+                    explode(':', substr($request->photo, 0,
+                        strpos($request->photo, ';')))[1])[1];
+            Image::make($request->photo)->resize(220,220)->save(public_path('img/profile/').$name);
+
+            $request->merge(['photo' => $name]);
+
+            $userPhoto = public_path('img/profile/').$currentPhoto;
+            if (file_exists($userPhoto)){
+                @unlink($userPhoto);
+            }
+        }
+        if (!empty($request->password)){
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+
+        $user->update($request->all());
+        return ['message' => 'Success'];
     }
 }

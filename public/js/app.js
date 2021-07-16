@@ -2166,12 +2166,65 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      form: new Form({
+        id: '',
+        name: '',
+        email: '',
+        password: '',
+        type: '',
+        bio: '',
+        photo: ''
+      })
+    };
+  },
   mounted: function mounted() {
     console.log('Component mounted.');
+  },
+  methods: {
+    uploadPhoto: function uploadPhoto(e) {
+      var _this = this;
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      if (file['size'] < 2111775) {
+        reader.onload = function (file) {
+          _this.form.photo = reader.result;
+          console.log(_this.form.photo);
+        };
+
+        reader.readAsDataURL(file);
+      } else {
+        swal.fire('Oops....!', 'You are uploading a large file', 'error');
+      }
+    },
+    getUserPhoto: function getUserPhoto() {
+      var photo = this.form.photo.length > 200 ? this.form.photo : "img/profile/" + this.form.photo;
+      return photo;
+    },
+    updateProfile: function updateProfile() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile').then(function () {
+        Fire.$emit('AfterCreate');
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.fail();
+      });
+    }
+  },
+  created: function created() {
+    var _this3 = this;
+
+    axios.get('api/profile').then(function (_ref) {
+      var data = _ref.data;
+      return _this3.form.fill(data);
+    });
   }
 });
 
@@ -63713,902 +63766,837 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "row justify-content-center" }, [
-          _c("div", { staticClass: "col-md-12 col-sm-12" }, [
-            _c("div", { staticClass: "x_panel" }, [
-              _c("div", { staticClass: "x_title" }, [
-                _c("h2", [_vm._v("User Profile")]),
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c("div", { staticClass: "col-md-12 col-sm-12" }, [
+          _c("div", { staticClass: "x_panel" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "x_content" }, [
+              _c("div", { staticClass: "col-md-3 col-sm-3  profile_left" }, [
+                _c("div", { staticClass: "profile_img" }, [
+                  _c("div", { attrs: { id: "crop-avatar" } }, [
+                    _c("img", {
+                      staticClass: "img-responsive avatar-view",
+                      attrs: {
+                        src: _vm.getUserPhoto(),
+                        alt: "Avatar",
+                        title: "Change the avatar"
+                      }
+                    })
+                  ])
+                ]),
                 _vm._v(" "),
-                _c("ul", { staticClass: "nav navbar-right panel_toolbox" }, [
-                  _c("li", [
-                    _c("a", { staticClass: "collapse-link" }, [
-                      _c("i", { staticClass: "fa fa-chevron-up" })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "dropdown" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "dropdown-toggle",
-                        attrs: {
-                          href: "#",
-                          "data-toggle": "dropdown",
-                          role: "button",
-                          "aria-expanded": "false"
-                        }
-                      },
-                      [_c("i", { staticClass: "fa fa-wrench" })]
-                    ),
+                _c("h3", [_vm._v("Samuel Doe")]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _vm._m(2),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("h4", [_vm._v("Skills")]),
+                _vm._v(" "),
+                _vm._m(3)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-9 col-sm-9 " }, [
+                _c(
+                  "div",
+                  {
+                    attrs: {
+                      role: "tabpanel",
+                      "data-example-id": "togglable-tabs"
+                    }
+                  },
+                  [
+                    _vm._m(4),
                     _vm._v(" "),
                     _c(
                       "div",
                       {
-                        staticClass: "dropdown-menu",
-                        attrs: { "aria-labelledby": "dropdownMenuButton" }
+                        staticClass: "tab-content",
+                        attrs: { id: "myTabContent" }
                       },
                       [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" }
-                          },
-                          [_vm._v("Settings 1")]
-                        ),
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _vm._m(6),
                         _vm._v(" "),
                         _c(
-                          "a",
+                          "div",
                           {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" }
+                            staticClass: "tab-pane fade",
+                            attrs: {
+                              role: "tabpanel",
+                              id: "tab_content3",
+                              "aria-labelledby": "profile-tab"
+                            }
                           },
-                          [_vm._v("Settings 2")]
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { staticClass: "close-link" }, [
-                      _c("i", { staticClass: "fa fa-close" })
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "clearfix" })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "x_content" }, [
-                _c("div", { staticClass: "col-md-3 col-sm-3  profile_left" }, [
-                  _c("div", { staticClass: "profile_img" }, [
-                    _c("div", { attrs: { id: "crop-avatar" } }, [
-                      _c("img", {
-                        staticClass: "img-responsive avatar-view",
-                        attrs: {
-                          src: "/backend/images/picture.jpg",
-                          alt: "Avatar",
-                          title: "Change the avatar"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("h3", [_vm._v("Samuel Doe")]),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "list-unstyled user_data" }, [
-                    _c("li", [
-                      _c("i", {
-                        staticClass: "fa fa-map-marker user-profile-icon"
-                      }),
-                      _vm._v(
-                        " San Francisco, California,\n                                    USA\n                                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("i", {
-                        staticClass: "fa fa-briefcase user-profile-icon"
-                      }),
-                      _vm._v(
-                        " Software Engineer\n                                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("li", { staticClass: "m-top-xs" }, [
-                      _c("i", {
-                        staticClass: "fa fa-external-link user-profile-icon"
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "http://www.kimlabs.com/profile/",
-                            target: "_blank"
-                          }
-                        },
-                        [_vm._v("www.kimlabs.com")]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("a", { staticClass: "btn btn-success" }, [
-                    _c("i", { staticClass: "fa fa-edit m-right-xs" }),
-                    _vm._v("Edit Profile")
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("h4", [_vm._v("Skills")]),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "list-unstyled user_data" }, [
-                    _c("li", [
-                      _c("p", [_vm._v("Web Applications")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress progress_sm" }, [
-                        _c("div", {
-                          staticClass: "progress-bar bg-green",
-                          staticStyle: { width: "50%" },
-                          attrs: {
-                            role: "progressbar",
-                            "data-transitiongoal": "50",
-                            "aria-valuenow": "48"
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("p", [_vm._v("Website Design")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress progress_sm" }, [
-                        _c("div", {
-                          staticClass: "progress-bar bg-green",
-                          staticStyle: { width: "70%" },
-                          attrs: {
-                            role: "progressbar",
-                            "data-transitiongoal": "70",
-                            "aria-valuenow": "68"
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("p", [_vm._v("Automation & Testing")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress progress_sm" }, [
-                        _c("div", {
-                          staticClass: "progress-bar bg-green",
-                          staticStyle: { width: "30%" },
-                          attrs: {
-                            role: "progressbar",
-                            "data-transitiongoal": "30",
-                            "aria-valuenow": "28"
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("li", [
-                      _c("p", [_vm._v("UI / UX")]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "progress progress_sm" }, [
-                        _c("div", {
-                          staticClass: "progress-bar bg-green",
-                          staticStyle: { width: "50%" },
-                          attrs: {
-                            role: "progressbar",
-                            "data-transitiongoal": "50",
-                            "aria-valuenow": "48"
-                          }
-                        })
-                      ])
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "col-md-9 col-sm-9 " }, [
-                  _c(
-                    "div",
-                    {
-                      attrs: {
-                        role: "tabpanel",
-                        "data-example-id": "togglable-tabs"
-                      }
-                    },
-                    [
-                      _c(
-                        "ul",
-                        {
-                          staticClass: "nav nav-tabs bar_tabs",
-                          attrs: { id: "myTab", role: "tablist" }
-                        },
-                        [
-                          _c(
-                            "li",
-                            {
-                              staticClass: "active",
-                              attrs: { role: "presentation" }
-                            },
-                            [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "active",
-                                  attrs: {
-                                    href: "#tab_content1",
-                                    id: "home-tab",
-                                    role: "tab",
-                                    "data-toggle": "tab",
-                                    "aria-expanded": "true",
-                                    "aria-selected": "true"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "Recent\n                                        Activity"
-                                  )
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("li", { attrs: { role: "presentation" } }, [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: "#tab_content2",
-                                  role: "tab",
-                                  id: "profile-tab",
-                                  "data-toggle": "tab",
-                                  "aria-expanded": "false"
-                                }
-                              },
-                              [_vm._v("Projects Worked on")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("li", { attrs: { role: "presentation" } }, [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href: "#tab_content3",
-                                  role: "tab",
-                                  id: "profile-tab2",
-                                  "data-toggle": "tab",
-                                  "aria-expanded": "false",
-                                  "aria-selected": "false"
-                                }
-                              },
-                              [_vm._v("Profile")]
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "tab-content",
-                          attrs: { id: "myTabContent" }
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "tab-pane active",
-                              attrs: {
-                                role: "tabpanel",
-                                id: "tab_content1",
-                                "aria-labelledby": "home-tab"
-                              }
-                            },
-                            [
-                              _c("ul", { staticClass: "messages" }, [
-                                _c("li"),
+                          [
+                            _c("div", { staticClass: "x_panel" }, [
+                              _vm._m(7),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "x_content" }, [
+                                _c("br"),
                                 _vm._v(" "),
-                                _c("li"),
-                                _vm._v(" "),
-                                _c("li"),
-                                _vm._v(" "),
-                                _c("li")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "tab-pane fade",
-                              attrs: {
-                                role: "tabpanel",
-                                id: "tab_content2",
-                                "aria-labelledby": "profile-tab"
-                              }
-                            },
-                            [
-                              _c(
-                                "table",
-                                {
-                                  staticClass:
-                                    "data table table-striped no-margin"
-                                },
-                                [
-                                  _c("thead", [
-                                    _c("tr", [
-                                      _c("th", [_vm._v("#")]),
-                                      _vm._v(" "),
-                                      _c("th", [_vm._v("Project Name")]),
-                                      _vm._v(" "),
-                                      _c("th", [_vm._v("Client Company")]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "th",
-                                        { staticClass: "hidden-phone" },
-                                        [_vm._v("Hours Spent")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("th", [_vm._v("Contribution")])
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("tbody", [
-                                    _c("tr", [
-                                      _c("td", [_vm._v("1")]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v("New Company Takeover Review")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v("Deveint Inc")]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "hidden-phone" },
-                                        [_vm._v("18")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "vertical-align-mid" },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "progress" },
-                                            [
-                                              _c("div", {
-                                                staticClass:
-                                                  "progress-bar progress-bar-success",
-                                                staticStyle: { width: "35%" },
-                                                attrs: {
-                                                  "data-transitiongoal": "35",
-                                                  "aria-valuenow": "35"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("tr", [
-                                      _c("td", [_vm._v("2")]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(
-                                          "New Partner Contracts Consultanci"
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v("Deveint Inc")]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "hidden-phone" },
-                                        [_vm._v("13")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "vertical-align-mid" },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "progress" },
-                                            [
-                                              _c("div", {
-                                                staticClass:
-                                                  "progress-bar progress-bar-danger",
-                                                staticStyle: { width: "15%" },
-                                                attrs: {
-                                                  "data-transitiongoal": "15",
-                                                  "aria-valuenow": "15"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("tr", [
-                                      _c("td", [_vm._v("3")]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v("Partners and Inverstors report")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v("Deveint Inc")]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "hidden-phone" },
-                                        [_vm._v("30")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "vertical-align-mid" },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "progress" },
-                                            [
-                                              _c("div", {
-                                                staticClass:
-                                                  "progress-bar progress-bar-success",
-                                                staticStyle: { width: "45%" },
-                                                attrs: {
-                                                  "data-transitiongoal": "45",
-                                                  "aria-valuenow": "45"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("tr", [
-                                      _c("td", [_vm._v("4")]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v("New Company Takeover Review")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v("Deveint Inc")]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "hidden-phone" },
-                                        [_vm._v("28")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "td",
-                                        { staticClass: "vertical-align-mid" },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "progress" },
-                                            [
-                                              _c("div", {
-                                                staticClass:
-                                                  "progress-bar progress-bar-success",
-                                                staticStyle: { width: "75%" },
-                                                attrs: {
-                                                  "data-transitiongoal": "75",
-                                                  "aria-valuenow": "75"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ])
-                                ]
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "tab-pane fade",
-                              attrs: {
-                                role: "tabpanel",
-                                id: "tab_content3",
-                                "aria-labelledby": "profile-tab"
-                              }
-                            },
-                            [
-                              _c("div", { staticClass: "x_panel" }, [
-                                _c("div", { staticClass: "x_title" }, [
-                                  _c("h2", [
-                                    _vm._v("Form Design "),
-                                    _c("small", [
-                                      _vm._v("different form elements")
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "ul",
-                                    {
-                                      staticClass:
-                                        "nav navbar-right panel_toolbox"
-                                    },
-                                    [
-                                      _c("li", [
+                                _c(
+                                  "form",
+                                  {
+                                    staticClass:
+                                      "form-horizontal form-label-left",
+                                    attrs: {
+                                      id: "demo-form2",
+                                      "data-parsley-validate": ""
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      { staticClass: "item form-group" },
+                                      [
+                                        _vm._m(8),
+                                        _vm._v(" "),
                                         _c(
-                                          "a",
-                                          { staticClass: "collapse-link" },
+                                          "div",
+                                          { staticClass: "col-md-6 col-sm-6 " },
                                           [
-                                            _c("i", {
-                                              staticClass: "fa fa-chevron-up"
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.form.name,
+                                                  expression: "form.name"
+                                                }
+                                              ],
+                                              staticClass: "form-control ",
+                                              attrs: {
+                                                type: "text",
+                                                id: "name",
+                                                required: "required"
+                                              },
+                                              domProps: {
+                                                value: _vm.form.name
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "name",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("HasError", {
+                                              attrs: {
+                                                form: _vm.form,
+                                                field: "name"
+                                              }
                                             })
-                                          ]
+                                          ],
+                                          1
                                         )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("li", { staticClass: "dropdown" }, [
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "item form-group" },
+                                      [
+                                        _vm._m(9),
+                                        _vm._v(" "),
                                         _c(
-                                          "a",
+                                          "div",
+                                          { staticClass: "col-md-6 col-sm-6 " },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.form.email,
+                                                  expression: "form.email"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "email",
+                                                id: "email",
+                                                name: "email",
+                                                required: "required"
+                                              },
+                                              domProps: {
+                                                value: _vm.form.email
+                                              },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "email",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("HasError", {
+                                              attrs: {
+                                                form: _vm.form,
+                                                field: "email"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "item form-group" },
+                                      [
+                                        _c(
+                                          "label",
                                           {
-                                            staticClass: "dropdown-toggle",
-                                            attrs: {
-                                              href: "#",
-                                              "data-toggle": "dropdown",
-                                              role: "button",
-                                              "aria-haspopup": "true",
-                                              "aria-expanded": "false"
-                                            }
+                                            staticClass:
+                                              "col-form-label col-md-3 col-sm-3 label-align",
+                                            attrs: { for: "bio" }
                                           },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-wrench"
-                                            })
-                                          ]
+                                          [_vm._v("Bio Info")]
                                         ),
                                         _vm._v(" "),
                                         _c(
-                                          "ul",
-                                          {
-                                            staticClass: "dropdown-menu",
-                                            attrs: { role: "menu" }
-                                          },
+                                          "div",
+                                          { staticClass: "col-md-6 col-sm-6 " },
                                           [
-                                            _c("li", [
-                                              _c(
-                                                "a",
+                                            _c("textarea", {
+                                              directives: [
                                                 {
-                                                  staticClass: "dropdown-item",
-                                                  attrs: { href: "#" }
-                                                },
-                                                [_vm._v("Settings 1")]
-                                              )
-                                            ]),
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.form.bio,
+                                                  expression: "form.bio"
+                                                }
+                                              ],
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                id: "bio",
+                                                required: "required",
+                                                name: "bio",
+                                                "data-parsley-trigger": "keyup",
+                                                "data-parsley-minlength": "20",
+                                                "data-parsley-maxlength": "100",
+                                                "data-parsley-validation-threshold":
+                                                  "10"
+                                              },
+                                              domProps: { value: _vm.form.bio },
+                                              on: {
+                                                input: function($event) {
+                                                  if ($event.target.composing) {
+                                                    return
+                                                  }
+                                                  _vm.$set(
+                                                    _vm.form,
+                                                    "bio",
+                                                    $event.target.value
+                                                  )
+                                                }
+                                              }
+                                            }),
                                             _vm._v(" "),
-                                            _c("li", [
-                                              _c(
-                                                "a",
-                                                {
-                                                  staticClass: "dropdown-item",
-                                                  attrs: { href: "#" }
-                                                },
-                                                [_vm._v("Settings 2")]
-                                              )
-                                            ])
+                                            _c("HasError", {
+                                              attrs: {
+                                                form: _vm.form,
+                                                field: "bio"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "item form-group" },
+                                      [
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass:
+                                              "col-form-label col-md-3 col-sm-3 label-align",
+                                            attrs: { for: "photo" }
+                                          },
+                                          [_vm._v("Profile Photo")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "col-md-6 col-sm-6 " },
+                                          [
+                                            _c("input", {
+                                              staticClass: "form-control",
+                                              attrs: {
+                                                type: "file",
+                                                id: "photo"
+                                              },
+                                              on: { change: _vm.uploadPhoto }
+                                            })
                                           ]
                                         )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("li", [
-                                        _c("a", { staticClass: "close-link" }, [
-                                          _c("i", {
-                                            staticClass: "fa fa-close"
-                                          })
-                                        ])
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("div", { staticClass: "clearfix" })
-                                ]),
-                                _vm._v(" "),
-                                _c("div", { staticClass: "x_content" }, [
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "form",
-                                    {
-                                      staticClass:
-                                        "form-horizontal form-label-left",
-                                      attrs: {
-                                        id: "demo-form2",
-                                        "data-parsley-validate": ""
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "item form-group" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "col-form-label col-md-3 col-sm-3 label-align",
-                                              attrs: { for: "first-name" }
-                                            },
-                                            [
-                                              _vm._v("First Name "),
-                                              _c(
-                                                "span",
-                                                { staticClass: "required" },
-                                                [_vm._v("*")]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "col-md-6 col-sm-6 "
-                                            },
-                                            [
-                                              _c("input", {
-                                                staticClass: "form-control ",
-                                                attrs: {
-                                                  type: "text",
-                                                  id: "first-name",
-                                                  required: "required"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "item form-group" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "col-form-label col-md-3 col-sm-3 label-align",
-                                              attrs: { for: "last-name" }
-                                            },
-                                            [
-                                              _vm._v("Last Name "),
-                                              _c(
-                                                "span",
-                                                { staticClass: "required" },
-                                                [_vm._v("*")]
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "col-md-6 col-sm-6 "
-                                            },
-                                            [
-                                              _c("input", {
-                                                staticClass: "form-control",
-                                                attrs: {
-                                                  type: "text",
-                                                  id: "last-name",
-                                                  name: "last-name",
-                                                  required: "required"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "item form-group" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "col-form-label col-md-3 col-sm-3 label-align",
-                                              attrs: { for: "middle-name" }
-                                            },
-                                            [_vm._v("Middle Name / Initial")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "col-md-6 col-sm-6 "
-                                            },
-                                            [
-                                              _c("input", {
-                                                staticClass: "form-control",
-                                                attrs: {
-                                                  id: "middle-name",
-                                                  type: "text",
-                                                  name: "middle-name"
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "item form-group" },
-                                        [
-                                          _c(
-                                            "label",
-                                            {
-                                              staticClass:
-                                                "col-form-label col-md-3 col-sm-3 label-align"
-                                            },
-                                            [_vm._v("Gender")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "col-md-6 col-sm-6 "
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass: "btn-group",
-                                                  attrs: {
-                                                    id: "gender",
-                                                    "data-toggle": "buttons"
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "ln_solid" }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "item form-group" },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "col-md-6 col-sm-6 offset-md-3"
+                                          },
+                                          [
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "btn btn-primary",
+                                                attrs: { type: "button" }
+                                              },
+                                              [_vm._v("Cancel")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "btn btn-primary",
+                                                attrs: { type: "reset" }
+                                              },
+                                              [_vm._v("Reset")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "button",
+                                              {
+                                                staticClass: "btn btn-success",
+                                                attrs: { type: "submit" },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    return _vm.updateProfile.apply(
+                                                      null,
+                                                      arguments
+                                                    )
                                                   }
-                                                },
-                                                [
-                                                  _c(
-                                                    "label",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-secondary",
-                                                      attrs: {
-                                                        "data-toggle-class":
-                                                          "btn-primary",
-                                                        "data-toggle-passive-class":
-                                                          "btn-default"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        staticClass: "join-btn",
-                                                        attrs: {
-                                                          type: "radio",
-                                                          name: "gender",
-                                                          value: "male"
-                                                        }
-                                                      }),
-                                                      _vm._v(
-                                                        "   Male  \n                                                                "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "label",
-                                                    {
-                                                      staticClass:
-                                                        "btn btn-primary",
-                                                      attrs: {
-                                                        "data-toggle-class":
-                                                          "btn-primary",
-                                                        "data-toggle-passive-class":
-                                                          "btn-default"
-                                                      }
-                                                    },
-                                                    [
-                                                      _c("input", {
-                                                        staticClass: "join-btn",
-                                                        attrs: {
-                                                          type: "radio",
-                                                          name: "gender",
-                                                          value: "female"
-                                                        }
-                                                      }),
-                                                      _vm._v(
-                                                        " Female\n                                                                "
-                                                      )
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("div", { staticClass: "ln_solid" }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        { staticClass: "item form-group" },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "col-md-6 col-sm-6 offset-md-3"
-                                            },
-                                            [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-primary",
-                                                  attrs: { type: "button" }
-                                                },
-                                                [_vm._v("Cancel")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-primary",
-                                                  attrs: { type: "reset" }
-                                                },
-                                                [_vm._v("Reset")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-success",
-                                                  attrs: { type: "submit" }
-                                                },
-                                                [_vm._v("Submit")]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ])
+                                                }
+                                              },
+                                              [_vm._v("Submit")]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
                               ])
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  )
-                ])
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
               ])
             ])
           ])
         ])
       ])
     ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "x_title" }, [
+      _c("h2", [_vm._v("User Profile")]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "nav navbar-right panel_toolbox" }, [
+        _c("li", [
+          _c("a", { staticClass: "collapse-link" }, [
+            _c("i", { staticClass: "fa fa-chevron-up" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "dropdown" }, [
+          _c(
+            "a",
+            {
+              staticClass: "dropdown-toggle",
+              attrs: {
+                href: "#",
+                "data-toggle": "dropdown",
+                role: "button",
+                "aria-expanded": "false"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-wrench" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "dropdown-menu",
+              attrs: { "aria-labelledby": "dropdownMenuButton" }
+            },
+            [
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("Settings 1")
+              ]),
+              _vm._v(" "),
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("Settings 2")
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { staticClass: "close-link" }, [
+            _c("i", { staticClass: "fa fa-close" })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "list-unstyled user_data" }, [
+      _c("li", [
+        _c("i", { staticClass: "fa fa-map-marker user-profile-icon" }),
+        _vm._v(
+          " San Francisco, California,\n                                    USA\n                                "
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("i", { staticClass: "fa fa-briefcase user-profile-icon" }),
+        _vm._v(" Software Engineer\n                                ")
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "m-top-xs" }, [
+        _c("i", { staticClass: "fa fa-external-link user-profile-icon" }),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            attrs: { href: "http://www.kimlabs.com/profile/", target: "_blank" }
+          },
+          [_vm._v("www.kimlabs.com")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "btn btn-success" }, [
+      _c("i", { staticClass: "fa fa-edit m-right-xs" }),
+      _vm._v("Edit Profile")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "list-unstyled user_data" }, [
+      _c("li", [
+        _c("p", [_vm._v("Web Applications")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progress progress_sm" }, [
+          _c("div", {
+            staticClass: "progress-bar bg-green",
+            staticStyle: { width: "50%" },
+            attrs: {
+              role: "progressbar",
+              "data-transitiongoal": "50",
+              "aria-valuenow": "48"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("p", [_vm._v("Website Design")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progress progress_sm" }, [
+          _c("div", {
+            staticClass: "progress-bar bg-green",
+            staticStyle: { width: "70%" },
+            attrs: {
+              role: "progressbar",
+              "data-transitiongoal": "70",
+              "aria-valuenow": "68"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("p", [_vm._v("Automation & Testing")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progress progress_sm" }, [
+          _c("div", {
+            staticClass: "progress-bar bg-green",
+            staticStyle: { width: "30%" },
+            attrs: {
+              role: "progressbar",
+              "data-transitiongoal": "30",
+              "aria-valuenow": "28"
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _c("p", [_vm._v("UI / UX")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "progress progress_sm" }, [
+          _c("div", {
+            staticClass: "progress-bar bg-green",
+            staticStyle: { width: "50%" },
+            attrs: {
+              role: "progressbar",
+              "data-transitiongoal": "50",
+              "aria-valuenow": "48"
+            }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      {
+        staticClass: "nav nav-tabs bar_tabs",
+        attrs: { id: "myTab", role: "tablist" }
+      },
+      [
+        _c("li", { staticClass: "active", attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              staticClass: "active",
+              attrs: {
+                href: "#tab_content1",
+                id: "home-tab",
+                role: "tab",
+                "data-toggle": "tab",
+                "aria-expanded": "true",
+                "aria-selected": "true"
+              }
+            },
+            [_vm._v("Recent\n                                        Activity")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              attrs: {
+                href: "#tab_content2",
+                role: "tab",
+                id: "profile-tab",
+                "data-toggle": "tab",
+                "aria-expanded": "false"
+              }
+            },
+            [_vm._v("Projects Worked on")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              attrs: {
+                href: "#tab_content3",
+                role: "tab",
+                id: "profile-tab2",
+                "data-toggle": "tab",
+                "aria-expanded": "false",
+                "aria-selected": "false"
+              }
+            },
+            [_vm._v("Profile")]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "tab-pane active",
+        attrs: {
+          role: "tabpanel",
+          id: "tab_content1",
+          "aria-labelledby": "home-tab"
+        }
+      },
+      [
+        _c("ul", { staticClass: "messages" }, [
+          _c("li"),
+          _vm._v(" "),
+          _c("li"),
+          _vm._v(" "),
+          _c("li"),
+          _vm._v(" "),
+          _c("li")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "tab-pane fade",
+        attrs: {
+          role: "tabpanel",
+          id: "tab_content2",
+          "aria-labelledby": "profile-tab"
+        }
+      },
+      [
+        _c("table", { staticClass: "data table table-striped no-margin" }, [
+          _c("thead", [
+            _c("tr", [
+              _c("th", [_vm._v("#")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Project Name")]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Client Company")]),
+              _vm._v(" "),
+              _c("th", { staticClass: "hidden-phone" }, [
+                _vm._v("Hours Spent")
+              ]),
+              _vm._v(" "),
+              _c("th", [_vm._v("Contribution")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tbody", [
+            _c("tr", [
+              _c("td", [_vm._v("1")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("New Company Takeover Review")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Deveint Inc")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "hidden-phone" }, [_vm._v("18")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "vertical-align-mid" }, [
+                _c("div", { staticClass: "progress" }, [
+                  _c("div", {
+                    staticClass: "progress-bar progress-bar-success",
+                    staticStyle: { width: "35%" },
+                    attrs: {
+                      "data-transitiongoal": "35",
+                      "aria-valuenow": "35"
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("2")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("New Partner Contracts Consultanci")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Deveint Inc")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "hidden-phone" }, [_vm._v("13")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "vertical-align-mid" }, [
+                _c("div", { staticClass: "progress" }, [
+                  _c("div", {
+                    staticClass: "progress-bar progress-bar-danger",
+                    staticStyle: { width: "15%" },
+                    attrs: {
+                      "data-transitiongoal": "15",
+                      "aria-valuenow": "15"
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("3")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Partners and Inverstors report")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Deveint Inc")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "hidden-phone" }, [_vm._v("30")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "vertical-align-mid" }, [
+                _c("div", { staticClass: "progress" }, [
+                  _c("div", {
+                    staticClass: "progress-bar progress-bar-success",
+                    staticStyle: { width: "45%" },
+                    attrs: {
+                      "data-transitiongoal": "45",
+                      "aria-valuenow": "45"
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tr", [
+              _c("td", [_vm._v("4")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("New Company Takeover Review")]),
+              _vm._v(" "),
+              _c("td", [_vm._v("Deveint Inc")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "hidden-phone" }, [_vm._v("28")]),
+              _vm._v(" "),
+              _c("td", { staticClass: "vertical-align-mid" }, [
+                _c("div", { staticClass: "progress" }, [
+                  _c("div", {
+                    staticClass: "progress-bar progress-bar-success",
+                    staticStyle: { width: "75%" },
+                    attrs: {
+                      "data-transitiongoal": "75",
+                      "aria-valuenow": "75"
+                    }
+                  })
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "x_title" }, [
+      _c("h2", [
+        _vm._v("Form Design "),
+        _c("small", [_vm._v("different form elements")])
+      ]),
+      _vm._v(" "),
+      _c("ul", { staticClass: "nav navbar-right panel_toolbox" }, [
+        _c("li", [
+          _c("a", { staticClass: "collapse-link" }, [
+            _c("i", { staticClass: "fa fa-chevron-up" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "dropdown" }, [
+          _c(
+            "a",
+            {
+              staticClass: "dropdown-toggle",
+              attrs: {
+                href: "#",
+                "data-toggle": "dropdown",
+                role: "button",
+                "aria-haspopup": "true",
+                "aria-expanded": "false"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-wrench" })]
+          ),
+          _vm._v(" "),
+          _c("ul", { staticClass: "dropdown-menu", attrs: { role: "menu" } }, [
+            _c("li", [
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("Settings 1")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+                _vm._v("Settings 2")
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c("a", { staticClass: "close-link" }, [
+            _c("i", { staticClass: "fa fa-close" })
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "clearfix" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-form-label col-md-3 col-sm-3 label-align",
+        attrs: { for: "name" }
+      },
+      [_vm._v(" Name "), _c("span", { staticClass: "required" }, [_vm._v("*")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      {
+        staticClass: "col-form-label col-md-3 col-sm-3 label-align",
+        attrs: { for: "email" }
+      },
+      [_vm._v("Email "), _c("span", { staticClass: "required" }, [_vm._v("*")])]
+    )
   }
 ]
 render._withStripped = true
